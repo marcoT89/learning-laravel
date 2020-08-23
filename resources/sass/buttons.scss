@@ -1,0 +1,19 @@
+.btn {
+    @apply border border-gray-400 bg-white rounded-lg px-4 py-2 transition duration-200;
+
+    &:hover {
+        @apply bg-gray-100 shadow-lg;
+    }
+
+    &:focus {
+        @apply outline-none shadow-none;
+    }
+
+    &.primary {
+        @apply border-primary-500 bg-primary-500 text-white;
+
+        &:hover {
+            @apply bg-primary-400;
+        }
+    }
+}
