@@ -1,0 +1,19 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es6",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": [
+                "./resources/js/*"
+            ]
+        }
+    },
+    "include": [
+        "resources/js/**/*.js",
+        "resources/js/**/*.vue"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
