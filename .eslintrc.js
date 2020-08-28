@@ -17,7 +17,6 @@ module.exports = {
     settings: {
         'import/extensions': ['.js', '.vue'],
         'import/resolver': {
-            //   extensions: ['.js', '.json', '.vue'],
             node: {
                 extensions: ['.js', '.json', '.vue'],
             },
@@ -36,7 +35,7 @@ module.exports = {
             'error',
             'ignorePackages',
             {
-                js: 'always',
+                js: 'never',
                 mjs: 'never',
                 jsx: 'never',
                 ts: 'never',

@@ -19,4 +19,9 @@ mix.js('resources/js/app.js', 'public/js')
     .tailwind()
     .alias({
         '@': '/resources/js',
+    })
+    .webpackConfig({
+        output: {
+            chunkFilename: 'js/[name].js',
+        },
     });

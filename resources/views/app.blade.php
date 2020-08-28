@@ -12,10 +12,7 @@
 
 <body>
     <div id="app">
-        {{-- <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Inventore reiciendis, id quo odio nam, sapiente
-            perferendis beatae officia nemo quaerat repellendus dolorum eum, dolores quisquam minima labore et quis
-            amet!</p> --}}
-        <welcome></welcome>
+        <router-view></router-view>
     </div>
     <script defer src="{{ mix('js/app.js') }}"></script>
 </body>

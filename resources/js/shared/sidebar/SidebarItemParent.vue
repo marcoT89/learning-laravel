@@ -1,6 +1,6 @@
 <template>
     <div
-        @click="opened = !opened"
+        @click.stop="opened = !opened"
         class="mx-2 mt-2 px-2 py-2 rounded-lg cursor-pointer opacity-75 hover:opacity-100 hover:bg-black hover:bg-opacity-25 transition duration-200 ease-in-out"
         :class="{ 'bg-black bg-opacity-25 opacity-100': opened }"
     >
@@ -30,9 +30,11 @@
                 <sidebar-item
                     v-for="child of menu.children"
                     :key="child.name"
-                    class="text-sm pl-9 rounded-lg"
-                    :href="child.url"
+                    :to="child.route"
                     :active="child.active"
+                    class="text-sm pl-9 rounded-lg"
+                    as="router-link"
+                    @click="onItemClick"
                 >
                     <div>{{ child.name }}</div>
                 </sidebar-item>
@@ -59,12 +61,29 @@ export default {
     },
 
     created() {
-        this.opened = this.isActive;
+        this.opened = this.isActive || this.hasActiveChildren;
+    },
+
+    watch: {
+        $route() {
+            this.opened = this.isActive || this.hasActiveChildren;
+        },
     },
 
     computed: {
         isActive() {
             return this.menu.active || this.menu.children.some((c) => c.active);
+        },
+        hasActiveChildren() {
+            return this.menu.children.some(
+                (child) => child.route && child.route.name === this.$route.name,
+            );
+        },
+    },
+
+    methods: {
+        onItemClick(event) {
+            this.$emit('child-click', event);
         },
     },
 };

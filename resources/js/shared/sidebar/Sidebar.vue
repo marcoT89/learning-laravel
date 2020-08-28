@@ -30,14 +30,18 @@
                                         "
                                         :key="index"
                                         :menu="menu"
+                                        @child-click="toggleSidebar"
                                     />
 
                                     <sidebar-item
                                         v-if="!menu.children"
                                         :key="index"
-                                        :href="menu.url"
+                                        :to="menu.route"
+                                        as="router-link"
                                         class="space-x-2 rounded-lg mx-2 mt-2"
+                                        :exact="menu.exact"
                                         :active="menu.active"
+                                        @click="toggleSidebar"
                                     >
                                         <icon
                                             :name="menu.icon"
@@ -85,7 +89,10 @@
                                     <sidebar-item
                                         v-if="!menu.children"
                                         :key="index"
-                                        :href="menu.url"
+                                        :href="menu.route"
+                                        :to="menu.route"
+                                        as="router-link"
+                                        :exact="menu.exact"
                                         class="space-x-2 rounded-lg mx-2 mt-2"
                                         :active="menu.active"
                                     >
@@ -134,7 +141,7 @@
 </style>
 
 <script>
-import EventBus from './EventBus.js';
+import EventBus from './EventBus';
 import SidebarItem from './SidebarItem.vue';
 import SidebarItemParent from './SidebarItemParent.vue';
 
@@ -151,9 +158,13 @@ export default {
     },
 
     created() {
-        EventBus.$on('@sidebar/toggle', () => {
+        EventBus.$on('@sidebar/toggle', this.toggleSidebar);
+    },
+
+    methods: {
+        toggleSidebar() {
             this.opened = !this.opened;
-        });
+        },
     },
 };
 </script>

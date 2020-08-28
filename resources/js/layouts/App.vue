@@ -1,6 +1,6 @@
 <template>
     <div class="flex">
-        <sidebar :menus="menus">
+        <sidebar class="z-40" :menus="sidebar">
             <template #header>
                 <div class="px-5 py-3">
                     <svg
@@ -18,37 +18,82 @@
             </template>
         </sidebar>
 
-        <div class="overflow-y-auto max-h-screen">
-            <slot></slot>
+        <div class="max-h-screen flex flex-col">
+            <div class="w-full pr-6 pl-3 py-3 bg-white shadow">
+                <button
+                    @click="toggleSidebar"
+                    class="btn px-2 text-gray-500 border-0 p-2"
+                >
+                    <icon name="menu" class="w-6 h-6"></icon>
+                </button>
+            </div>
+
+            <div class="overflow-y-auto">
+                <!-- <div class="absolute flex w-full"> -->
+                <transition name="page" mode="out-in">
+                    <router-view />
+                </transition>
+                <!-- </div> -->
+            </div>
         </div>
     </div>
 </template>
 
+<style lang="scss" scoped>
+.page-enter-active,
+.page-leave-active {
+    @apply transition duration-500 ease-in-out;
+}
+.page-enter,
+.page-leave-to {
+    @apply opacity-0 transform -translate-x-1;
+}
+</style>
+
 <script>
-import { Sidebar } from '@/shared/sidebar';
+import { Sidebar, toggler } from '@/shared/sidebar';
 
 export default {
     components: { Sidebar },
 
     data() {
         return {
-            menus: [
+            sidebar: [
                 {
-                    name: 'Dashboard', icon: 'home', url: 'http://google.com', active: false,
+                    name: 'Dashboard',
+                    exact: true,
+                    icon: 'home',
+                    route: { name: 'home' },
                 },
-                { name: 'Users', icon: 'user-group', url: 'http://google.com' },
+                {
+                    name: 'Users',
+                    icon: 'user-group',
+                    route: { name: 'users' },
+                },
                 {
                     name: 'Reports',
                     icon: 'pie-chart',
                     children: [
-                        { name: 'User\'s Reports', url: 'http://laravel.com' },
-                        { name: 'Posts\'s Reports', url: 'http://laravel.com', active: false },
+                        { name: 'User\'s Reports', route: { name: 'reports.users' } },
+                        { name: 'Posts\'s Reports', route: { name: 'reports.posts' } },
                     ],
                 },
-                { name: 'Settings', icon: 'cog', url: 'http://google.com' },
-                { name: 'Activities', icon: 'activity', url: 'http://google.com' },
+                {
+                    name: 'Settings',
+                    icon: 'cog',
+                    route: { name: 'settings' },
+                },
+                {
+                    name: 'Activities',
+                    icon: 'activity',
+                    route: { name: 'activites' },
+                },
             ],
         };
+    },
+
+    methods: {
+        toggleSidebar: toggler.toggle,
     },
 };
 </script>
